@@ -17,6 +17,7 @@
 import sys
 import re
 import datetime
+from cryptography.fernet import Fernet
 
 if (len(sys.argv) < 2):
     print('Usage:', sys.argv[0], '<datafile>')
@@ -63,3 +64,24 @@ for i in range(len(lines)):
             print(timenow, 30*power/days, 30*water/days, 30*energy/days, 30*hotwater/days, cur[5], cur[6], energy*860/hotwater)
         prev = cur
 
+with open("fernet.key", "rb") as file:
+    cryptoengine = Fernet(file.read())
+
+ctextfile = sys.argv[1] + ".ctext"
+
+with open(sys.argv[1], "rb") as file:
+    ptext = file.read()
+    ctext = cryptoengine.encrypt(ptext)
+    #print(base64.urlsafe_b64decode(ctext))
+
+with open(ctextfile, "wb") as file:
+    file.write(ctext)
+
+# Check decryption
+with open(ctextfile, "rb") as file:
+    ptextNew = cryptoengine.decrypt(file.read())
+
+if ptext == ptextNew:
+    print("Decryption verified succesfully", file=sys.stderr)
+else:
+    print("Error: decryption failed!!!", file=sys.stderr)
