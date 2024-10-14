@@ -61,6 +61,9 @@ for i in range(len(lines)):
             # Hack for new power meter 25 JUN 2019, initialised to 0
             if (datenow == datetime.date(2019,7,1)):
                 power = float(cur[1]) - float(0)
+            # Hack for new water meter 16 AUG 2024, initialised to 0
+            if (datenow == datetime.date(2024,8,16)):
+                water = float(cur[2]) - float(0)
             print(timenow, 30*power/days, 30*water/days, 30*energy/days, 30*hotwater/days, cur[5], cur[6], energy*860/hotwater)
         prev = cur
 
