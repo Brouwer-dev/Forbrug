@@ -33,7 +33,7 @@ print("# Dato[DD-MM-YYYY] El[kWH/md] Vand[m³/md] Varme[MWh/md] Fjernvarmevand[m
 
 prev = []
 for i in range(len(lines)):
-    if (re.match("^\d\d-\d\d-\d{4}", lines[i])):
+    if (re.match(r"^\d\d-\d\d-\d{4}", lines[i])):
         cur = lines[i].split()
         if (7 <= len(prev)):
             timenow  = cur[0]
